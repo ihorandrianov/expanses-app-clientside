@@ -4,6 +4,7 @@ import { isLoggedIn, logIn } from '../client/api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import img from '../assets/bg.jpg';
 
 export const LoginPage: FC = () => {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ export const LoginPage: FC = () => {
           </div>
           <div
             className="h-full w-3/5 bg-no-repeat bg-center bg-cover md:flex hidden items-center justify-center"
-            style={{ backgroundImage: 'url(src/assets/bg.jpg)' }}
+            style={{ backgroundImage: `url(${img})` }}
           ></div>
         </div>
       </div>
