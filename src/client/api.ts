@@ -30,7 +30,7 @@ export interface VerificationToken {
   token: string;
 }
 
-const DEFAULT_URL = 'expanses-app-production.up.railway.app';
+const DEFAULT_URL = 'https://expanses-app-production.up.railway.app';
 
 const client = axios.create({
   withCredentials: true,
