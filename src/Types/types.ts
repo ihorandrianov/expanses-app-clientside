@@ -6,10 +6,9 @@ export interface User {
 }
 
 export interface Expanse {
-  id: number;
+  id?: number;
   userId: number;
-  user: User;
-  spentAt: Date;
+  spentAt?: string;
   title: string;
   amount: number;
   category: string;
