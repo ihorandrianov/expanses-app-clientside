@@ -5,16 +5,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import img from '../assets/bg.jpg';
+import { CircleLoader } from 'react-spinners';
+import { CheckCircleSharp } from '@mui/icons-material';
 
 export const LoginPage: FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [isError, setIsError] = useState(false);
 
   const logInMutation = useMutation(logIn, {
-    onError: () => {
-      setIsError(true);
-    },
     onSettled: () => {
       queryClient.invalidateQueries(['session']);
     },
@@ -64,10 +62,16 @@ export const LoginPage: FC = () => {
                   placeholder="Your password"
                   className="p-2 rounded placeholder:font-light placeholder:text-sm  placeholder:tracking-wide w-full"
                 />
-                {isError && (
-                  <p className="m-2 bg-white text-red-600">
+                {logInMutation.isError && (
+                  <p className="p-1 text-red-800 bg-stone-300 bg-opacity-30 rounded font-thin">
                     Wrong password or email
                   </p>
+                )}
+                {logInMutation.isLoading && (
+                  <CircleLoader color="white" size={20} />
+                )}
+                {logInMutation.isSuccess && (
+                  <CheckCircleSharp htmlColor="white" fontSize="large" />
                 )}
                 <button
                   type="submit"

@@ -126,14 +126,16 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
               className="text-xs text-red-600"
             />
           </div>
+          {newExpanseMutation.isError && (
+            <p className="text-sm text-red-500 font-light">
+              Somenthing went wrong
+            </p>
+          )}
           <button
-            className="p-3 bg-white rounded-sm w-[100px] hover:scale-105 transition-transform duration-300"
+            className="p-3 bg-white font-thin uppercase rounded-sm w-[100px] hover:scale-105 transition-transform duration-300"
             type="submit"
           >
-            {newExpanseMutation.isIdle && 'Add'}
-            {newExpanseMutation.isLoading && (
-              <CircleLoader size={10} color="rgb(59 130 246)" />
-            )}
+            Add
           </button>
         </Form>
       </Formik>
