@@ -35,6 +35,9 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
     onError: (error, newExpanse, context) => {
       queryClient.setQueryData(queryKey, context?.prevExpanses);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries(queryKey);
+    },
   });
 
   return (

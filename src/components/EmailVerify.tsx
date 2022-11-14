@@ -48,6 +48,11 @@ export const EmailVerify: FC = () => {
         {verifyEmailMutation.isError && (
           <p className="text-sm p-3 text-red-500">Cannot verify email</p>
         )}
+        {verifyEmailMutation.isSuccess && (
+          <p className="text-sm p-3 text-green-500">
+            Email verified succesfully!
+          </p>
+        )}
       </section>
     </div>
   );
