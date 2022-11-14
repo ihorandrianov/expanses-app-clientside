@@ -15,7 +15,7 @@ import { ExpansePage } from './components/ExpansePage';
 import { EmailVerify } from './components/EmailVerify';
 import { isLoggedIn } from './client/api';
 import { User } from './Types/types';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ErrorPage } from './components/ErrorPage';
 
 const queryClient = new QueryClient();
 
@@ -53,6 +53,7 @@ const router = createBrowserRouter([
           const user = await isLoggedIn();
           return user as User;
         },
+        errorElement: <ErrorPage />,
       },
       {
         path: '/expanses/:id',
@@ -74,7 +75,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <ReactQueryDevtools />
     </QueryClientProvider>
   </React.StrictMode>
 );

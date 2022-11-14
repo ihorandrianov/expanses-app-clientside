@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { RegisterData, registerNewUser } from '../client/api';
 import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
+import { CircleLoader } from 'react-spinners';
 
 const signUpSchema = Yup.object().shape({
   name: Yup.string()
@@ -18,9 +19,6 @@ export const Register: FC = () => {
   const navigate = useNavigate();
 
   const registerUserMutation = useMutation(registerNewUser, {
-    onError: (error) => {
-      console.log(error);
-    },
     onSuccess: () => {
       navigate('/');
     },
@@ -40,7 +38,7 @@ export const Register: FC = () => {
             registerUserMutation.mutate(values);
           }}
         >
-          <Form className="flex flex-col m-14 gap-10 w-1/2">
+          <Form className="flex flex-col m-14 gap-5 w-1/2">
             <h1 className="text-center text-white font-thin tracking-wide uppercase">
               Registration form
             </h1>
@@ -83,6 +81,14 @@ export const Register: FC = () => {
                 className="text-sm font-light p-3 bg-red-300 border-red-800 border rounded-md text-red-800"
               />
             </div>
+            {registerUserMutation.isError && (
+              <p className="text-sm text-red-500">
+                Some error happened here! Maybe email is already taken
+              </p>
+            )}
+            {registerUserMutation.isLoading && (
+              <CircleLoader color="white" size={20} />
+            )}
             <div className="flex items-center gap-5">
               <button
                 type="submit"
