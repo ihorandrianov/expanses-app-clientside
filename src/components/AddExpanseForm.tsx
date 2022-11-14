@@ -4,6 +4,7 @@ import { FC } from 'react';
 import * as Yup from 'yup';
 import { addNewExpanse } from '../client/api';
 import { Expanse } from '../Types/types';
+import { v4 as uuidv4 } from 'uuid';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -29,7 +30,7 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
         {
           ...newExpanse,
           spentAt: date.toISOString(),
-          id: Math.max(...prevExpanses.map((expanse) => expanse?.id || 0)) + 1,
+          id: uuidv4(),
         },
       ]);
 
