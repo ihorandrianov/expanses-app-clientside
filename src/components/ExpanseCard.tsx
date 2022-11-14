@@ -15,20 +15,7 @@ export const ExpanseCard: FC<Props> = ({ expanse }) => {
   const [formatedDate, formatedTime] = spentAt!.split('T');
   const stripedTime = formatedTime.slice(0, 5);
   const queryClient = useQueryClient();
-  const queryKey = ['expansesPreview', userId];
   const deleteExpanseMutation = useMutation(deleteExpanse, {
-    onMutate: async (newExpanse) => {
-      await queryClient.cancelQueries(queryKey);
-      const prevExpanses = queryClient.getQueryData(queryKey) as Expanse[];
-      queryClient.setQueryData(queryKey, [
-        prevExpanses.filter((expanse) => expanse.id !== id),
-      ]);
-
-      return { prevExpanses, newExpanse };
-    },
-    onError: (error, newExpanse, context) => {
-      queryClient.setQueryData(queryKey, context?.prevExpanses);
-    },
     onSettled: () => {
       queryClient.invalidateQueries(['expansesPreview', userId]);
     },
