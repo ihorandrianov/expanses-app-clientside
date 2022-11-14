@@ -25,12 +25,9 @@ export const EmailVerify: FC = () => {
     resendEmailMutation.mutate();
   };
 
-  console.log(token);
-
   useMutation;
   return (
     <div className="w-[100vw] h-[100vh] flex flex-col items-center">
-      <Header />
       <section className="w-[95vw] h-[85vh] bg-blue-100 mt-5 flex flex-col justify-center gap-5 items-center">
         <h1 className="text-2xl font-thin uppercase">Click here to verify</h1>
         <button
@@ -45,6 +42,12 @@ export const EmailVerify: FC = () => {
         >
           Resend email
         </button>
+        {resendEmailMutation.isError && (
+          <p className="text-sm p-3 text-red-500">Cannot resend email</p>
+        )}
+        {verifyEmailMutation.isError && (
+          <p className="text-sm p-3 text-red-500">Cannot verify email</p>
+        )}
       </section>
     </div>
   );
