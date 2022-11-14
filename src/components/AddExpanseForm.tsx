@@ -26,11 +26,7 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
       const prevExpanses = queryClient.getQueryData(queryKey) as Expanse[];
       queryClient.setQueryData(queryKey, [
         ...prevExpanses,
-        {
-          ...newExpanse,
-          spentAt: date.toISOString(),
-          id: Math.max(...prevExpanses.map((expanse) => expanse?.id || 0)),
-        },
+        { ...newExpanse, spentAt: date.toISOString(), id: 0 },
       ]);
 
       return { prevExpanses, newExpanse };
