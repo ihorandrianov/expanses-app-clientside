@@ -29,7 +29,7 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
         {
           ...newExpanse,
           spentAt: date.toISOString(),
-          id: Math.max(...prevExpanses.map((expanse) => expanse?.id || 0)),
+          id: Math.max(...prevExpanses.map((expanse) => expanse?.id || 0)) + 1,
         },
       ]);
 
