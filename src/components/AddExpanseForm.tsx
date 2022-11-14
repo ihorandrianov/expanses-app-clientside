@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { FC } from 'react';
-import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 import { addNewExpanse } from '../client/api';
 import { Expanse } from '../Types/types';
@@ -27,7 +26,7 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
       const prevExpanses = queryClient.getQueryData(queryKey) as Expanse[];
       queryClient.setQueryData(queryKey, [
         ...prevExpanses,
-        { ...newExpanse, spentAt: date.toISOString() },
+        { ...newExpanse, spentAt: date.toISOString(), id: 0 },
       ]);
 
       return { prevExpanses, newExpanse };
