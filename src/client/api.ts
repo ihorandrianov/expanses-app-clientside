@@ -76,9 +76,7 @@ export const isLoggedIn = async (): Promise<User> => {
 
 export const getExpansesById = async (id: number): Promise<Expanse[]> => {
   try {
-    const response = await client.post(`/expanses/user-expanses`, {
-      id,
-    });
+    const response = await client.get(`/expanses/user-expanses/${id}`);
     const expanses = response.data;
     return expanses;
   } catch (e) {
