@@ -30,7 +30,7 @@ export interface VerificationToken {
   token: string;
 }
 
-const DEFAULT_URL = 'https://expanses-app-production.up.railway.app';
+const DEFAULT_URL = 'http://localhost:8000';
 
 const client = axios.create({
   withCredentials: true,
@@ -76,8 +76,8 @@ export const isLoggedIn = async (): Promise<User> => {
 
 export const getExpansesById = async (id: number): Promise<Expanse[]> => {
   try {
-    const response = await client.get(`/expanses/user-expanses/${id}`);
-    const expanses = response.data;
+    const response = await client.get(`/users/${id}/expanses`);
+    const expanses = await response.data.expanses;
     return expanses;
   } catch (e) {
     throw new Error(JSON.stringify(e));
@@ -91,7 +91,7 @@ export const registerNewUser = async (
     const response = await client.post('/auth/register', registerData);
     const user = await response.data;
     return user;
-  } catch (e: unknown) {
+  } catch (e) {
     throw new Error(JSON.stringify(e));
   }
 };
@@ -126,7 +126,7 @@ export const changePassword = async (passwordChangeData: PasswordChange) => {
 
 export const getExpanseById = async (id: number) => {
   try {
-    const response = await client.get(`/expanses/${id}`);
+    const response = await client.get(`/expanses/${id}}`);
     const expanse = await response.data;
 
     return expanse;
@@ -137,7 +137,7 @@ export const getExpanseById = async (id: number) => {
 
 export const addNewExpanse = async (expanse: Expanse): Promise<void> => {
   try {
-    client.post('/expanses', expanse);
+    await client.post('/expanses', expanse);
   } catch (e) {
     throw new Error(JSON.stringify(e));
   }

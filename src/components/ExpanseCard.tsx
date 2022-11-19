@@ -15,11 +15,15 @@ export const ExpanseCard: FC<Props> = ({ expanse }) => {
   const [formatedDate, formatedTime] = spentAt!.split('T');
   const stripedTime = formatedTime.slice(0, 5);
   const queryClient = useQueryClient();
-  const deleteExpanseMutation = useMutation(deleteExpanse, {
-    onSettled: () => {
-      queryClient.invalidateQueries(['expansesPreview', userId]);
-    },
-  });
+  const deleteExpanseMutation = useMutation(
+    ['deleteExpanse', userId],
+    deleteExpanse,
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(['expansesPreview', userId]);
+      },
+    }
+  );
 
   const handleDelete = () => {
     if (id) {

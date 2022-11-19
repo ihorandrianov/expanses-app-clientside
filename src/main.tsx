@@ -16,6 +16,7 @@ import { EmailVerify } from './components/EmailVerify';
 import { isLoggedIn } from './client/api';
 import { User } from './Types/types';
 import { ErrorPage } from './components/ErrorPage';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
@@ -75,6 +76,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   </React.StrictMode>
 );
