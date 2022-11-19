@@ -17,13 +17,14 @@ export const AllUserExpanses: FC = () => {
     translateY: '-50%',
   });
   const user = useLoaderData() as User;
+  const userId = user.id;
   const { data: expanses, isLoading: isLoadingExpanses } = useQuery(
-    ['expansesPreview', user.id],
-    () => getExpansesById(user.id)
+    ['expansesPreview', userId],
+    () => getExpansesById(userId)
   );
 
   const handleFormShow = () => setShowForm(!showForm);
-  console.log(user);
+
   if (isLoadingExpanses) {
     return (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -35,13 +36,10 @@ export const AllUserExpanses: FC = () => {
   return (
     <div className="m-10 overflow-y-auto w-full xl:w-1/2">
       <ul className="w-full overflow-y-hidden flex flex-col justify-center">
-        {expanses ? (
+        {expanses &&
           expanses.map((expanse) => (
             <ExpanseCard key={expanse.id} expanse={expanse} />
-          ))
-        ) : (
-          <p>No Expanses yet</p>
-        )}
+          ))}
       </ul>
       <button
         className="absolute right-5 bottom-5 hover:scale-110 transition-transform duration-300"

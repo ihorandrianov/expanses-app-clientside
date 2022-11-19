@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { addNewExpanse } from '../client/api';
 import { Expanse } from '../Types/types';
 import { v4 as uuidv4 } from 'uuid';
+import { CircleLoader } from 'react-spinners';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -20,26 +21,15 @@ type Props = {
 export const AddExpanseForm: FC<Props> = ({ userId }) => {
   const queryClient = useQueryClient();
   const queryKey = ['expansesPreview', userId];
-  const newExpanseMutation = useMutation(addNewExpanse, {
-    onMutate: async (newExpanse) => {
-      await queryClient.cancelQueries(queryKey);
-      const date = new Date();
-      const prevExpanses = queryClient.getQueryData(queryKey) as Expanse[];
-      queryClient.setQueryData(queryKey, [
-        ...prevExpanses,
-        {
-          ...newExpanse,
-          spentAt: date.toISOString(),
-          id: uuidv4(),
-        },
-      ]);
-
-      return { prevExpanses, newExpanse };
-    },
-    onError: (error, newExpanse, context) => {
-      queryClient.setQueryData(queryKey, context?.prevExpanses);
-    },
-  });
+  const newExpanseMutation = useMutation(
+    ['addExpanse', userId],
+    addNewExpanse,
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKey);
+      },
+    }
+  );
 
   return (
     <div>
@@ -51,7 +41,7 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
           note: '',
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
+        onSubmit={async (values, actions) => {
           newExpanseMutation.mutate({
             ...values,
             userId,
@@ -141,6 +131,9 @@ export const AddExpanseForm: FC<Props> = ({ userId }) => {
           >
             Add
           </button>
+          {newExpanseMutation.isLoading && (
+            <CircleLoader color="rgb(59 130 246)" size={20} />
+          )}
         </Form>
       </Formik>
     </div>
